@@ -1,17 +1,26 @@
+#Anthropic SDK
 import anthropic
 
+#Use os and dotenv to get the API key`
 import os
 from dotenv import load_dotenv
 
 load_dotenv()
 API_KEY = os.getenv('ANTHROPIC_API_KEY')
 
-class Chatbot:
+class Claude: 
     def __init__(self):
+        #Initialise client and store messages to allow a continual chat
         self.client = anthropic.Anthropic(api_key=API_KEY)
         self.messages = []
 
+    """
+    Takes as input a message from the user, appends it to the current conversation
+    gets a response from the AI API, prints it to the standard output and saves
+    that message to keep the conversation flowing
+    """
     def talk(self, message):
+        
         self.messages.append({
             'role': 'user',
             'content':[
@@ -38,7 +47,7 @@ class Chatbot:
         })
 
 def main():
-    chatbot = Chatbot()
+    chatbot = Claude()
     print('Please enter a prompt below, or enter /bye to quit')
     message = input('>>> ')
     while message != '/bye':

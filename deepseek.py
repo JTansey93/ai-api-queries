@@ -11,21 +11,45 @@ load_dotenv()
 #The file contains a line DEEPSEEK_API_KEY=<API key value>
 DEEPSEEK_API_KEY = os.getenv('DEEPSEEK_API_KEY')
 
-if __name__ == '__main__':
-    client = OpenAI(api_key=DEEPSEEK_API_KEY, base_url='https://api.deepseek.com')
+class DeepSeek:
 
-    print('Enter your prompt and hit enter below, or use /bye and hit enter to quit.')
-    INPUT = input('>>>')
-
-    #TODO: Think of a better way to let the user edit the system prompt
-    messages= [{'role': 'system', 'content': 'You are a helpful AI assistant'}]
-
-    while INPUT != '/bye':
-        messages.append({'role': 'user', 'content': INPUT})
-        response = client.chat.completions.create(
-                model='deepseek-chat',
-                messages=messages
+    def __init__(self):
+        self.client = OpenAI(
+                api_key=DEEPSEEK_API_KEY,
+                base_url='https://api.deepseek.com'
                 )
-        messages.append(response.choices[0].message)
+
+        self.messages = [{
+            'role':'system',
+            'content': 'You are a helpful AI assistant'
+            }]
+
+    """
+    Takes as input a message from the user, appends it to the current conversation
+    gets a response from the AI API, prints it to the standard output and saves
+    that message to keep the conversation flowing
+    """
+    def talk(self, message):
+        self.messages.append({
+            'role': 'user',
+            'content': message
+            })
+
+        response = self.client.chat.completions.create(
+                model='deepseek-chat',
+                messages=self.messages
+                )
+
+        self.messages.append(response.choices[0].message)
         print(response.choices[0].message.content)
-        INPUT = input('>>>')
+
+def main():
+    chatbot = DeepSeek()
+    print('Enter your prompt below, or use /bye to quit')
+    message = input('>>> ')
+    while message != '/bye':
+       chatbot.talk(message)
+       message = input('>>> ')
+
+if __name__ == '__main__':
+    main()
