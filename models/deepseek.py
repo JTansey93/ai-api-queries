@@ -5,6 +5,8 @@ from openai import OpenAI
 import os
 from dotenv import load_dotenv
 
+from config import SYSTEM_PROMPT
+
 load_dotenv()
 
 #The API key is in a file called .env
@@ -20,7 +22,7 @@ class DeepSeek:
                 )
 
         self.messages = [{
-            'role':'system',
+            'role': SYTEM_PROMPT,
             'content': 'You are a helpful AI assistant'
             }]
 

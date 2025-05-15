@@ -5,6 +5,8 @@ import anthropic
 import os
 from dotenv import load_dotenv
 
+from config import SYSTEM_PROMPT
+
 load_dotenv()
 API_KEY = os.getenv('ANTHROPIC_API_KEY')
 
@@ -18,6 +20,8 @@ class Claude:
     Takes as input a message from the user, appends it to the current conversation
     gets a response from the AI API, prints it to the standard output and saves
     that message to keep the conversation flowing
+
+    TODO: Implement some kind of logging
     """
     def talk(self, message):
         
@@ -35,7 +39,7 @@ class Claude:
             model='claude-3-7-sonnet-20250219',
             max_tokens=1000,
             temperature=1,
-            system='You are a helpful AI assisant.',
+            system=SYSTEM_PROMPT,
             messages=self.messages
             )
         response_text = response.content[0].text
