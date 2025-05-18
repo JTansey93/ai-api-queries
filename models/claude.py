@@ -44,7 +44,7 @@ class Claude:
             )
         response_text = response.content[0].text
  
-        print(response_text)
+        print('# ' + response_text)
         self.messages.append({
             'role': 'assistant',
             'content': response_text

@@ -22,8 +22,8 @@ class DeepSeek:
                 )
 
         self.messages = [{
-            'role': SYTEM_PROMPT,
-            'content': 'You are a helpful AI assistant'
+            'role': 'system',
+            'content': SYSTEM_PROMPT
             }]
 
     """
@@ -43,7 +43,7 @@ class DeepSeek:
                 )
 
         self.messages.append(response.choices[0].message)
-        print(response.choices[0].message.content)
+        print('# ' + response.choices[0].message.content)
 
 def main():
     chatbot = DeepSeek()
